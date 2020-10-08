@@ -1,0 +1,58 @@
+﻿@page "/EditContact/{CurrentId}"
+@using ContactManagementSystem.Models
+@using ContactManagementSystem.Services
+@inject ContactService service
+@inject NavigationManager NavigationManager
+
+<div class="display-3">Update Contact</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group" hidden>
+            <label for="Id" class="control-label">Last Name: </label>
+            <input form="Id" class="form-control" @bind="@contact.Id" />
+        </div>
+        <div class="form-group">
+            <label for="LastName" class="control-label">Last Name: </label>
+            <input placeholder="@contact.LastName" form="LastName" class="form-control" @bind="@contact.LastName" />
+        </div>
+        <div class="form-group">
+            <label for="FirstName" class="control-label">First Name: </label>
+            <input placeholder="@contact.FirstName" form="FirstName" class="form-control" @bind="@contact.FirstName" required />
+        </div>
+        <div class="form-group">
+            <label for="PhoneNumber" class="control-label">Phone Number: </label>
+            <input placeholder="@contact.PhoneNumber" form="PhoneNumber" class="form-control" @bind="@contact.PhoneNumber" />
+        </div>
+        <div class="form-group">
+            <label for="BirthDate" class="control-label">Birth Date: </label>
+            <input placeholder="@contact.BirthDate" form="BirthDate" class="form-control" @bind="@contact.BirthDate" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Cancel" class="btn btn-dark" @onclick="@Cancel" />
+            <input type="submit" value="Update" class="btn btn-primary" @onclick="@Update" />
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string CurrentId { get; set; }
+    ContactEntity contact = new ContactEntity();
+
+    protected override async Task OnInitializedAsync()
+    {
+        contact = await Task.Run(() => service.Get(Guid.Parse(CurrentId)));
+    }
+
+    protected void Update()
+    {
+        service.Edit(contact);
+        NavigationManager.NavigateTo("");
+    }
+    protected void Cancel()
+    {
+        NavigationManager.NavigateTo("");
+    }
+}
