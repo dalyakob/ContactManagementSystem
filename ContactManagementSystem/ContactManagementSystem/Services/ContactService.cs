@@ -35,14 +35,16 @@ namespace ContactManagementSystem.Services
         //Create A Contact
         public string Create(ContactEntity contact)
         {
-            if (contact != null)
+            try
             {
                 _context.Contacts.Add(contact);
                 _context.SaveChanges();
-                return "Created Successfully";
+                return "Contact Created Successfully";
             }
-
-            return "Contact Could not be created please, try again!";
+            catch
+            {
+                return "Contact Could not be created please, try again!";
+            }
         }
 
         //Edit Contact
@@ -52,7 +54,7 @@ namespace ContactManagementSystem.Services
             {
                 _context.Contacts.Update(contact);
                 _context.SaveChanges();
-                return "Updated Successfully";
+                return "Contact Updated Successfully";
             }
 
             return "Contact Could not be updated please, try again!";

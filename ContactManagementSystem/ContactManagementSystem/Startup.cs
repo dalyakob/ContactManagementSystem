@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using ContactManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using ContactManagementSystem.Services;
+using Blazored.Modal;
 
 namespace ContactManagementSystem
 {
@@ -33,6 +34,7 @@ namespace ContactManagementSystem
             services.AddScoped<ContactService>();
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ApplicationDbContext")));
+            services.AddBlazoredModal();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

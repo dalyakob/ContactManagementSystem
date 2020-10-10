@@ -13,13 +13,13 @@ namespace ContactManagementSystem.Models
         [Key]
         public Guid Id { get; set; }
 
-        [StringLength(250)]
+        [StringLength(250, ErrorMessage = "Name is too long.")]
         public string LastName { get; set; }
 
-        [StringLength(250)]
+        [StringLength(250, ErrorMessage = "Name is too long.")]
         public string FirstName { get; set; }
 
-        [StringLength(15)]
+        [StringLength(15, ErrorMessage = "Phone Number is too long.")]
         public string PhoneNumber { get; set; }
 
         public DateTime BirthDate { get; set; }

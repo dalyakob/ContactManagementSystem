@@ -1,0 +1,62 @@
+﻿@using ContactManagementSystem.Models
+@using ContactManagementSystem.Services
+@inject ContactService service
+@inject NavigationManager NavigationManager
+
+
+
+<p><em>Are you sure you want to delete @contact.FirstName @contact.LastName?</em></p>
+
+
+<div class="form-group">
+    <label><strong>First Name:</strong></label>
+    <label>@contact.FirstName</label>
+</div>
+<div class="form-group">
+    <label><strong>Last Name:</strong></label>
+    <label>@contact.LastName</label>
+</div>
+<div class="form-group">
+    <label><strong>Phone Number:</strong></label>
+    <label>@contact.PhoneNumber</label>
+</div>
+<div class="form-group">
+    <label><strong>Birth Date:</strong></label>
+    <label>@contact.BirthDate</label>
+</div>
+
+
+<div class="simple-form">
+    <div class="form-group">
+        <input type="submit" value="Cancel" class="btn btn-dark" @onclick="@Cancel" />
+        <input type="submit" value="Delete" class="btn btn-danger" @onclick="@Delete" />
+    </div>
+</div>
+
+
+@code {
+    [CascadingParameter]
+    BlazoredModalInstance BlazoredModal { get; set; }
+
+    [Parameter]
+    public Guid CurrentId { get; set; }
+    ContactEntity contact = new ContactEntity();
+
+    protected override async Task OnInitializedAsync()
+    {
+        contact = await Task.Run(() => service.Get(CurrentId));
+    }
+
+    void Delete()
+    {
+        service.Delete(contact);
+        NavigationManager.NavigateTo("",true);
+        //BlazoredModal.Close(ModalResult.Ok($"Contact was deleted successfully"));
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("", true);
+        //BlazoredModal.Close(ModalResult.Cancel());
+    }
+}
